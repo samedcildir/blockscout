@@ -3,7 +3,7 @@ version: '3.9'
 services:
   backend:
     image: blockscout/${DOCKER_REPO:-blockscout}:${DOCKER_TAG:-latest}
-    pull_policy: always
+    pull_policy: never
     restart: always
     stop_grace_period: 5m
     container_name: 'backend'
@@ -15,3 +15,15 @@ services:
     volumes:
       - ./logs/:/app/logs/
       - ./dets/:/app/dets/
+    environment:
+      CHAIN_ID: '331337'
+      ETHEREUM_JSONRPC_HTTP_URL: 'http://172.17.0.1:18545'
+      ETHEREUM_JSONRPC_WS_URL: 'ws://172.17.0.1:18545'
+      INDEXER_DISABLE_PENDING_TRANSACTIONS_FETCHER: 'true'
+      INDEXER_DISABLE_INTERNAL_TRANSACTIONS_FETCHER: 'true'
+      INDEXER_DISABLE_EMPTY_BLOCKS_SANITIZER: 'true'
+      ETHEREUM_JSONRPC_DISABLE_ARCHIVE_BALANCES: 'true'
+      INDEXER_DISABLE_WITHDRAWALS_FETCHER: 'true'
+      NFT_MEDIA_HANDLER_ENABLED: 'false'
+      ETHEREUM_JSONRPC_CASE: EthereumJSONRPC.Case.Geth.HTTPWebSocket
+      ETHEREUM_JSONRPC_WEB_SOCKET_CASE: EthereumJSONRPC.WebSocket.Case.Geth

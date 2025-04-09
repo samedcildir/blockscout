@@ -14,3 +14,5 @@ services:
       -  ../envs/common-nft-media-handler.env
     volumes:
       - ./logs/:/app/logs/
+    environment:
+      NFT_MEDIA_HANDLER_ENABLED: 'false'

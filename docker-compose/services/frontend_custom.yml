@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  frontend:
+    image: blockscout-frontend:local
+    pull_policy: never
+    platform: linux/amd64
+    restart: always
+    container_name: 'frontend'
+    env_file:
+      -  ../envs/common-frontend.env
+    environment:
+      NEXT_PUBLIC_API_HOST: 'localhost'
+      NEXT_PUBLIC_APP_HOST: 'localhost'
+      NEXT_PUBLIC_NETWORK_NAME: 'BRC 2.0'
+      NEXT_PUBLIC_NETWORK_SHORT_NAME: 'BRC 2.0'
+      NEXT_PUBLIC_AD_BANNER_PROVIDER: 'none'
+      NEXT_PUBLIC_AD_TEXT_PROVIDER: 'none'
+      NEXT_PUBLIC_IS_TESTNET: 'true'
+      NEXT_PUBLIC_GAS_TRACKER_ENABLED: 'false'
+      NEXT_PUBLIC_VIEWS_BLOCK_HIDDEN_FIELDS: '["base_fee","burnt_fees","total_reward","nonce","miner","L1_status","batch"]'
+      NEXT_PUBLIC_VIEWS_TX_HIDDEN_FIELDS: '["value","fee_currency","gas_price","tx_fee","gas_fees","burnt_fees","L1_status","batch"]'
+      NEXT_PUBLIC_HAS_BEACON_CHAIN: 'false'
+      NEXT_PUBLIC_HAS_USER_OPS: 'false'
+      NEXT_PUBLIC_GRAPHIQL_TRANSACTION: 'none'
+      NEXT_PUBLIC_API_SPEC_URL: 'none'
+      NEXT_PUBLIC_WEB3_WALLETS: 'none'
+      NEXT_PUBLIC_VISUALIZE_API_HOST:
+      NEXT_PUBLIC_STATS_API_HOST:
+      NEXT_PUBLIC_HOMEPAGE_HERO_BANNER_CONFIG: '{"background": ["url(https://bis-static.fra1.cdn.digitaloceanspaces.com/blockscout/signet_hero_bg.jpg) right / cover"], "text_color": ["#FFFFFF"], "border": ["1px solid rgba(255,255,255,0.10)"], "button": {"_default": {"background": ["#FFFFFF"], "text_color": ["#EA7501"]}, "_hover": {"background": ["rgba(255,255,255,0.92)"], "text_color": ["#EA7501"]}, "_selected": {"background": ["#EA7501"], "text_color": ["#FFFFFF"]}}}'
+      NEXT_PUBLIC_NETWORK_LOGO: 'https://bis-static.fra1.cdn.digitaloceanspaces.com/blockscout/NEXT_PUBLIC_NETWORK_LOGO.svg'
+      NEXT_PUBLIC_NETWORK_LOGO_DARK: 'https://bis-static.fra1.cdn.digitaloceanspaces.com/blockscout/NEXT_PUBLIC_NETWORK_LOGO_DARK.svg'
+      NEXT_PUBLIC_NETWORK_ICON: 'https://bis-static.fra1.cdn.digitaloceanspaces.com/blockscout/NEXT_PUBLIC_NETWORK_ICON.png'
+      NEXT_PUBLIC_NETWORK_ICON_DARK: 'https://bis-static.fra1.cdn.digitaloceanspaces.com/blockscout/NEXT_PUBLIC_NETWORK_ICON_DARK.png'
+      NEXT_PUBLIC_NAVIGATION_HIDDEN_LINKS: '["eth_rpc_api", "rpc_api"]'
+      FAVICON_MASTER_URL: 'https://bis-static.fra1.cdn.digitaloceanspaces.com/blockscout/NEXT_PUBLIC_NETWORK_ICON.png'
+      NEXT_PUBLIC_OG_IMAGE_URL: 'https://bis-static.fra1.cdn.digitaloceanspaces.com/blockscout/NEXT_PUBLIC_OG_IMAGE-1.jpg'

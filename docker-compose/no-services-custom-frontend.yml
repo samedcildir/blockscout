@@ -42,7 +42,7 @@ services:
     depends_on:
       - backend
     extends:
-      file: ./services/frontend.yml
+      file: ./services/frontend_custom.yml
       service: frontend
     environment:
       NEXT_PUBLIC_STATS_API_HOST:

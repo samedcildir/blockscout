@@ -9,3 +9,21 @@ services:
     container_name: 'frontend'
     env_file:
       -  ../envs/common-frontend.env
+    environment:
+      NEXT_PUBLIC_API_HOST: 'localhost'
+      NEXT_PUBLIC_APP_HOST: 'localhost'
+      NEXT_PUBLIC_NETWORK_NAME: 'BRC 2.0'
+      NEXT_PUBLIC_NETWORK_SHORT_NAME: 'BRC 2.0'
+      NEXT_PUBLIC_AD_BANNER_PROVIDER: 'none'
+      NEXT_PUBLIC_AD_TEXT_PROVIDER: 'none'
+      NEXT_PUBLIC_IS_TESTNET: 'true'
+      NEXT_PUBLIC_GAS_TRACKER_ENABLED: 'false'
+      NEXT_PUBLIC_VIEWS_BLOCK_HIDDEN_FIELDS: '["base_fee","burnt_fees","total_reward","nonce","miner","L1_status","batch"]'
+      NEXT_PUBLIC_VIEWS_TX_HIDDEN_FIELDS: '["value","fee_currency","gas_price","tx_fee","gas_fees","burnt_fees","L1_status","batch"]'
+      NEXT_PUBLIC_HAS_BEACON_CHAIN: 'false'
+      NEXT_PUBLIC_HAS_USER_OPS: 'false'
+      NEXT_PUBLIC_GRAPHIQL_TRANSACTION: 'none'
+      NEXT_PUBLIC_API_SPEC_URL: 'none'
+      NEXT_PUBLIC_WEB3_WALLETS: 'none'
+      NEXT_PUBLIC_VISUALIZE_API_HOST:
+      NEXT_PUBLIC_STATS_API_HOST:

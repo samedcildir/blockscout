@@ -9,26 +9,54 @@ SIG_PROVIDER_CONTAINER_NAME := sig-provider
 STATS_CONTAINER_NAME := stats
 STATS_DB_CONTAINER_NAME := stats-db
 PROXY_CONTAINER_NAME := proxy
-PG_CONTAINER_NAME := postgres
+PG_CONTAINER_NAME := db
+REDIS_CONTAINER_NAME := redis-db
+VERIFIER_CONTAINER_NAME := smart-contract-verifier
 RELEASE_VERSION ?= '8.0.0'
 TAG := $(RELEASE_VERSION)-commit-$(shell git log -1 --pretty=format:"%h")
 STABLE_TAG := $(RELEASE_VERSION)
 
 start:
+	@echo "==> Removing blockscout db data (For testing purposes, remove this line in prod)"
+	rm -rf "../docker-compose/services/blockscout-db-data"
+	@echo "==> Removing stats db data (For testing purposes, remove this line in prod)"
+	rm -rf "../docker-compose/services/stats-db-data"
 	@echo "==> Starting blockscout db"
-	@docker-compose -f ../docker-compose/services/db.yml up -d
+	@docker compose -f ../docker-compose/services/db.yml up -d
 	@echo "==> Starting blockscout backend"
-	@docker-compose -f ../docker-compose/services/backend.yml up -d
+	@docker compose -f ../docker-compose/services/backend.yml up -d
 	@echo "==> Starting stats microservice"
-	@docker-compose -f ../docker-compose/services/stats.yml up -d
+	@docker compose -f ../docker-compose/services/stats.yml up -d
 	@echo "==> Starting visualizer microservice"
-	@docker-compose -f ../docker-compose/services/visualizer.yml up -d
+	@docker compose -f ../docker-compose/services/visualizer.yml up -d
 	@echo "==> Starting sig-provider microservice"
-	@docker-compose -f ../docker-compose/services/sig-provider.yml up -d
+	@docker compose -f ../docker-compose/services/sig-provider.yml up -d
 	@echo "==> Starting blockscout frontend"
-	@docker-compose -f ../docker-compose/services/frontend.yml up -d
+	@docker compose -f ../docker-compose/services/frontend.yml up -d
 	@echo "==> Starting Nginx proxy"
-	@docker-compose -f ../docker-compose/services/nginx.yml up -d
+	@docker compose -f ../docker-compose/services/nginx.yml up -d
+
+
+start-no-services-no-reset:
+	@echo "==> Starting blockscout no-services"
+	@docker compose -f ../docker-compose/no-services-custom-frontend.yml up -d
+
+start-no-services-build:
+	@echo "==> Removing blockscout db data (For testing purposes, remove this line in prod)"
+	rm -rf "../docker-compose/services/blockscout-db-data"
+	@echo "==> Removing stats db data (For testing purposes, remove this line in prod)"
+	rm -rf "../docker-compose/services/stats-db-data"
+	@echo "==> Starting blockscout no-services"
+	@docker compose -f ../docker-compose/no-services-custom-frontend.yml up --build -d
+
+
+start-no-services:
+	@echo "==> Removing blockscout db data (For testing purposes, remove this line in prod)"
+	rm -rf "../docker-compose/services/blockscout-db-data"
+	@echo "==> Removing stats db data (For testing purposes, remove this line in prod)"
+	rm -rf "../docker-compose/services/stats-db-data"
+	@echo "==> Starting blockscout no-services"
+	@docker compose -f ../docker-compose/no-services-custom-frontend.yml up -d
 
 BS_BACKEND_STARTED := $(shell docker ps --no-trunc --filter name=^/${BACKEND_CONTAINER_NAME}$  | grep ${BACKEND_CONTAINER_NAME})
 BS_FRONTEND_STARTED := $(shell docker ps --no-trunc --filter name=^/${FRONTEND_CONTAINER_NAME}$  | grep ${FRONTEND_CONTAINER_NAME})
@@ -37,6 +65,9 @@ BS_STATS_DB_STARTED := $(shell docker ps --no-trunc --filter name=^/${STATS_DB_C
 BS_VISUALIZER_STARTED := $(shell docker ps --no-trunc --filter name=^/${VISUALIZER_CONTAINER_NAME}$  | grep ${VISUALIZER_CONTAINER_NAME})
 BS_SIG_PROVIDER_STARTED := $(shell docker ps --no-trunc --filter name=^/${SIG_PROVIDER_CONTAINER_NAME}$  | grep ${SIG_PROVIDER_CONTAINER_NAME})
 BS_PROXY_STARTED := $(shell docker ps --no-trunc --filter name=^/${PROXY_CONTAINER_NAME}$  | grep ${PROXY_CONTAINER_NAME})
+PG_STARTED := $(shell docker ps --no-trunc --filter name=^/${PG_CONTAINER_NAME}$  | grep ${PG_CONTAINER_NAME})
+REDIS_STARTED := $(shell docker ps --no-trunc --filter name=^/${REDIS_CONTAINER_NAME}$  | grep ${REDIS_CONTAINER_NAME})
+VERIFIER_STARTED := $(shell docker ps --no-trunc --filter name=^/${VERIFIER_CONTAINER_NAME}$  | grep ${VERIFIER_CONTAINER_NAME})
 stop:
 ifdef BS_FRONTEND_STARTED
 	@echo "==> Stopping Blockscout frontend container."
@@ -93,6 +124,20 @@ ifdef PG_STARTED
 	@echo "==> Postgres container stopped."
 else
 	@echo "==> Postgres container already stopped before."
+endif
+ifdef REDIS_STARTED
+	@echo "==> Stopping Redis container."
+	@docker stop $(REDIS_CONTAINER_NAME)
+	@echo "==> Redis container stopped."
+else
+	@echo "==> Redis container already stopped before."
+endif
+ifdef VERIFIER_STARTED
+	@echo "==> Stopping Verifier container."
+	@docker stop $(VERIFIER_CONTAINER_NAME)
+	@echo "==> Verifier container stopped."
+else
+	@echo "==> Verifier container already stopped before."
 endif
 
 run: start
