@@ -10,8 +10,9 @@ services:
     env_file:
       -  ../envs/common-frontend.env
     environment:
-      NEXT_PUBLIC_API_HOST: 'signet_explorer.bestinslot.xyz'
-      NEXT_PUBLIC_APP_HOST: 'signet_explorer.bestinslot.xyz'
+      NEXT_PUBLIC_API_HOST: 'explorer.bestinslot.xyz'
+      NEXT_PUBLIC_API_BASE_PATH: '/signet'
+      NEXT_PUBLIC_APP_HOST: 'explorer.bestinslot.xyz'
       NEXT_PUBLIC_API_PROTOCOL: 'https'
       NEXT_PUBLIC_APP_PROTOCOL: 'https'
       NEXT_PUBLIC_API_WEBSOCKET_PROTOCOL: 'wss'
@@ -29,7 +30,8 @@ services:
       NEXT_PUBLIC_API_SPEC_URL: 'none'
       NEXT_PUBLIC_WEB3_WALLETS: 'none'
       NEXT_PUBLIC_VISUALIZE_API_HOST:
-      NEXT_PUBLIC_STATS_API_HOST:
+      NEXT_PUBLIC_STATS_API_HOST: 'https://explorer.bestinslot.xyz'
+      NEXT_PUBLIC_STATS_API_BASE_PATH: '/signet/stats_api'
       NEXT_PUBLIC_HOMEPAGE_HERO_BANNER_CONFIG: '{"background": ["url(https://bis-static.fra1.cdn.digitaloceanspaces.com/blockscout/signet_hero_bg.jpg) right / cover"], "text_color": ["#FFFFFF"], "border": ["0px"], "button": {"_default": {"background": ["#FFFFFF"], "text_color": ["#EA7501"]}, "_hover": {"background": ["rgba(255,255,255,0.92)"], "text_color": ["#EA7501"]}, "_selected": {"background": ["#EA7501"], "text_color": ["#FFFFFF"]}}}'
       NEXT_PUBLIC_NETWORK_LOGO: 'https://bis-static.fra1.cdn.digitaloceanspaces.com/blockscout/NEXT_PUBLIC_NETWORK_LOGO.svg'
       NEXT_PUBLIC_NETWORK_LOGO_DARK: 'https://bis-static.fra1.cdn.digitaloceanspaces.com/blockscout/NEXT_PUBLIC_NETWORK_LOGO_DARK.svg'

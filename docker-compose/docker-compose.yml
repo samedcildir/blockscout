@@ -30,42 +30,19 @@ services:
       context: ..
       dockerfile: ./docker/Dockerfile
       args:
+        API_V1_READ_METHODS_DISABLED: "false"
+        DISABLE_WEBAPP: "false"
+        API_V1_WRITE_METHODS_DISABLED: "true"
+        ADMIN_PANEL_ENABLED: ""
         RELEASE_VERSION: 8.0.0
     links:
       - db:database
-    environment:
-        ETHEREUM_JSONRPC_HTTP_URL: http://host.docker.internal:8545/
-        ETHEREUM_JSONRPC_TRACE_URL: http://host.docker.internal:8545/
-        ETHEREUM_JSONRPC_WS_URL: ws://host.docker.internal:8545/
-        CHAIN_ID: '1337'
-
-  nft_media_handler:
-    depends_on:
-      - backend
-    extends:
-      file: ./services/nft_media_handler.yml
-      service: nft_media_handler
-    build:
-      context: ..
-      dockerfile: ./docker/Dockerfile
-      args:
-        RELEASE_VERSION: 8.0.0
-
-  visualizer:
-    extends:
-      file: ./services/visualizer.yml
-      service: visualizer
-
-  sig-provider:
-    extends:
-      file: ./services/sig-provider.yml
-      service: sig-provider
 
   frontend:
     depends_on:
       - backend
     extends:
-      file: ./services/frontend.yml
+      file: ./services/frontend_custom_w_services.yml
       service: frontend
 
   stats-db-init:
@@ -89,14 +66,6 @@ services:
       file: ./services/stats.yml
       service: stats
 
-  user-ops-indexer:
-    depends_on:
-      - db
-      - backend
-    extends:
-      file: ./services/user-ops-indexer.yml
-      service: user-ops-indexer
-
   proxy:
     depends_on:
       - backend
@@ -105,3 +74,4 @@ services:
     extends:
       file: ./services/nginx.yml
       service: proxy
+

@@ -21,21 +21,12 @@ start:
 	rm -rf "../docker-compose/services/blockscout-db-data"
 	@echo "==> Removing stats db data (For testing purposes, remove this line in prod)"
 	rm -rf "../docker-compose/services/stats-db-data"
-	@echo "==> Starting blockscout db"
-	@docker compose -f ../docker-compose/services/db.yml up -d
-	@echo "==> Starting blockscout backend"
-	@docker compose -f ../docker-compose/services/backend.yml up -d
-	@echo "==> Starting stats microservice"
-	@docker compose -f ../docker-compose/services/stats.yml up -d
-	@echo "==> Starting visualizer microservice"
-	@docker compose -f ../docker-compose/services/visualizer.yml up -d
-	@echo "==> Starting sig-provider microservice"
-	@docker compose -f ../docker-compose/services/sig-provider.yml up -d
-	@echo "==> Starting blockscout frontend"
-	@docker compose -f ../docker-compose/services/frontend.yml up -d
-	@echo "==> Starting Nginx proxy"
-	@docker compose -f ../docker-compose/services/nginx.yml up -d
+	@echo "==> Starting blockscout"
+	@docker compose -f ../docker-compose/docker-compose.yml up -d
 
+start-no-reset:
+	@echo "==> Starting blockscout"
+	@docker compose -f ../docker-compose/docker-compose.yml up -d
 
 start-no-services-no-reset:
 	@echo "==> Starting blockscout no-services"
