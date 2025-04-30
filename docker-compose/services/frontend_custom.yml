@@ -10,6 +10,7 @@ services:
     env_file:
       -  ../envs/common-frontend.env
     environment:
+      NEXT_PUBLIC_NETWORK_TOKEN_STANDARD_NAME: 'pBRC'
       NEXT_PUBLIC_API_HOST: 'signet_explorer.bestinslot.xyz'
       NEXT_PUBLIC_APP_HOST: 'signet_explorer.bestinslot.xyz'
       NEXT_PUBLIC_API_PROTOCOL: 'https'
